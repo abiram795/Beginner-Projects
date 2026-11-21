@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlexPulse - Interactive Fitness Tracker</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- FontAwesome for Premium Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="glass">
+        <a href="#" class="logo">
+            <i class="fa-solid fa-heart-pulse"></i> FlexPulse
+        </a>
+        <button class="btn-icon" id="theme-toggle" title="Toggle Theme">
+            <i class="fa-solid fa-moon"></i>
+        </button>
+    </header>
+
+    <!-- App Container -->
+    <div class="app-container">
+        
+        <!-- Daily Goals Statistics Row -->
+        <section class="goals-grid">
+            
+            <!-- Steps Goal (SVG circular) -->
+            <div class="glass goal-card">
+                <div class="goal-svg-container">
+                    <svg width="70" height="70">
+                        <circle cx="35" cy="35" r="30" fill="transparent" stroke="var(--panel-border)" stroke-width="5"></circle>
+                        <circle cx="35" cy="35" r="30" fill="transparent" stroke="var(--accent)" stroke-width="5" stroke-dasharray="188.5" stroke-dashoffset="188.5" stroke-linecap="round" id="circle-steps"></circle>
+                    </svg>
+                    <span class="goal-percentage" id="lbl-steps-pct">0%</span>
+                </div>
+                <div class="goal-info">
+                    <span class="goal-title">Daily Steps</span>
+                    <div class="goal-val" id="val-steps">0 / 10k</div>
+                    <button class="btn-secondary" style="padding:0.15rem 0.4rem; font-size:0.75rem;" id="btn-add-steps">+ 1,000</button>
+                </div>
+            </div>
+
+            <!-- Water Goal (SVG circular) -->
+            <div class="glass goal-card">
+                <div class="goal-svg-container">
+                    <svg width="70" height="70">
+                        <circle cx="35" cy="35" r="30" fill="transparent" stroke="var(--panel-border)" stroke-width="5"></circle>
+                        <circle cx="35" cy="35" r="30" fill="transparent" stroke="#3b82f6" stroke-width="5" stroke-dasharray="188.5" stroke-dashoffset="188.5" stroke-linecap="round" id="circle-water"></circle>
+                    </svg>
+                    <span class="goal-percentage" id="lbl-water-pct">0%</span>
+                </div>
+                <div class="goal-info">
+                    <span class="goal-title">Water Intake</span>
+                    <div class="goal-val" id="val-water">0 / 2.5L</div>
+                    <button class="btn-secondary" style="padding:0.15rem 0.4rem; font-size:0.75rem;" id="btn-add-water">+ 250ml</button>
+                </div>
+            </div>
+
+            <!-- Calories Burned -->
+            <div class="glass goal-card">
+                <div class="goal-svg-container" style="color: var(--danger); font-size: 1.5rem;">
+                    <i class="fa-solid fa-fire"></i>
+                </div>
+                <div class="goal-info" style="margin-left: 0.5rem;">
+                    <span class="goal-title">Calories Burned</span>
+                    <div class="goal-val" id="val-calories">0 kcal</div>
+                    <span style="font-size:0.8rem; color:var(--text-secondary);" id="lbl-calories-avg">Daily Avg: 0</span>
+                </div>
+            </div>
+
+            <!-- Active Minutes -->
+            <div class="glass goal-card">
+                <div class="goal-svg-container" style="color: var(--warning); font-size: 1.5rem;">
+                    <i class="fa-solid fa-clock"></i>
+                </div>
+                <div class="goal-info" style="margin-left: 0.5rem;">
+                    <span class="goal-title">Active Time</span>
+                    <div class="goal-val" id="val-minutes">0 mins</div>
+                    <span style="font-size:0.8rem; color:var(--text-secondary);" id="lbl-minutes-goal">Goal: 60 mins</span>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Main Workspace Splitter -->
+        <section class="main-grid">
+            
+            <!-- Left Pane: Workout logger and BMI calculator -->
+            <div style="display:flex; flex-direction:column; gap:2rem;">
+                
+                <!-- Log Workout Card Form -->
+                <div class="glass section-card">
+                    <h2><i class="fa-solid fa-square-plus" style="color:var(--accent);"></i> Log Workout</h2>
+                    <form id="workout-form" onsubmit="event.preventDefault();" style="display:flex; flex-direction:column; gap:1.15rem;">
+                        <div class="form-group">
+                            <label>Activity</label>
+                            <select class="input-field" id="w-activity" required>
+                                <option value="Running">Running</option>
+                                <option value="Cycling">Cycling</option>
+                                <option value="Weightlifting">Weightlifting</option>
+                                <option value="Swimming">Swimming</option>
+                                <option value="Yoga">Yoga</option>
+                                <option value="Walking">Walking</option>
+                            </select>
+                        </div>
+                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.75rem;">
+                            <div class="form-group">
+                                <label>Duration (mins)</label>
+                                <input type="number" class="input-field" id="w-duration" placeholder="e.g. 30" min="1" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Calories (kcal)</label>
+                                <input type="number" class="input-field" id="w-calories" placeholder="e.g. 250" min="1" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Date</label>
+                            <input type="date" class="input-field" id="w-date" required>
+                        </div>
+                        <button type="submit" class="btn-primary">Record Workout</button>
+                    </form>
+                </div>
+
+                <!-- BMI Calculator Card -->
+                <div class="glass section-card">
+                    <h2><i class="fa-solid fa-calculator" style="color:var(--accent);"></i> BMI Calculator</h2>
+                    <form id="bmi-form" onsubmit="event.preventDefault();" style="display:flex; flex-direction:column; gap:1.15rem;">
+                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.75rem;">
+                            <div class="form-group">
+                                <label>Height (cm)</label>
+                                <input type="number" step="0.1" class="input-field" id="bmi-height" placeholder="e.g. 175" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Weight (kg)</label>
+                                <input type="number" step="0.1" class="input-field" id="bmi-weight" placeholder="e.g. 70" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn-primary">Calculate BMI</button>
+                        
+                        <!-- Calculated Result Alert -->
+                        <div class="bmi-box" id="bmi-result-box">
+                            <div style="display:flex; justify-content:space-between; font-weight:700;">
+                                <span>Your BMI: <span id="bmi-val">22.8</span></span>
+                                <span id="bmi-status" style="color:var(--accent);">Normal</span>
+                            </div>
+                            <p style="font-size:0.8rem; line-height:1.4; opacity:0.9;" id="bmi-advice">You maintain a healthy weight index range. Keep up the active steps!</p>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+
+            <!-- Right Pane: Bar Charts & History Logs Ledger -->
+            <div style="display:flex; flex-direction:column; gap:2rem;">
+                
+                <!-- Progress Chart Card -->
+                <div class="glass section-card">
+                    <h2><i class="fa-solid fa-chart-bar" style="color:var(--accent);"></i> Weekly Burn History</h2>
+                    <div class="bar-chart-container" id="bar-chart-container">
+                        <!-- Chart bars dynamically generated by JS -->
+                    </div>
+                </div>
+
+                <!-- Workout History Ledger -->
+                <div class="glass section-card">
+                    <h2><i class="fa-solid fa-receipt" style="color:var(--accent);"></i> Activity Logs</h2>
+                    
+                    <div style="display:flex; justify-content:space-between; align-items:center; gap:0.75rem; flex-wrap:wrap;">
+                        <select class="input-field" id="filter-activity" style="width: 160px; padding: 0.4rem 0.5rem; font-size: 0.85rem;">
+                            <option value="all">All Activities</option>
+                            <option value="Running">Running</option>
+                            <option value="Cycling">Cycling</option>
+                            <option value="Weightlifting">Weightlifting</option>
+                            <option value="Swimming">Swimming</option>
+                            <option value="Yoga">Yoga</option>
+                            <option value="Walking">Walking</option>
+                        </select>
+                        <div style="font-size:0.85rem; color:var(--text-secondary);" id="lbl-log-count">0 items logged</div>
+                    </div>
+
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Activity</th>
+                                    <th>Duration</th>
+                                    <th>Calories Burned</th>
+                                    <th style="text-align:right;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="workout-table-body">
+                                <!-- Injected dynamically by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

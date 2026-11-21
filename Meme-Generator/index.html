@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memeify - Canvas Meme Generator</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- FontAwesome for Premium Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="glass">
+        <a href="#" class="logo">
+            <i class="fa-solid fa-face-grin-squint-tears"></i> Memeify
+        </a>
+        <button class="btn-icon" id="theme-toggle" title="Toggle Theme">
+            <i class="fa-solid fa-moon"></i>
+        </button>
+    </header>
+
+    <!-- App Container Layout splits -->
+    <div class="generator-container">
+        
+        <!-- ================= LEFT COLUMN: MEME BUILDER FORM ================= -->
+        <div style="display:flex; flex-direction:column; gap:2rem;">
+            
+            <!-- Template scroll list -->
+            <div class="glass section-card">
+                <h2><i class="fa-solid fa-photo-film" style="color:var(--accent);"></i> Preset Templates</h2>
+                <div class="template-scroll-grid" id="templates-grid-list">
+                    <!-- Preset templates injected here by JS -->
+                </div>
+            </div>
+
+            <!-- Custom File Upload -->
+            <div class="glass section-card">
+                <h2><i class="fa-solid fa-arrow-up-from-bracket" style="color:var(--accent);"></i> Custom Image</h2>
+                <div class="file-upload-box" id="upload-box">
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                    <strong>Drag & Drop Image</strong>
+                    <span style="font-size:0.8rem; color:var(--text-secondary);">Supports JPG, PNG, WEBP (Max 5MB)</span>
+                    <input type="file" id="file-uploader" accept="image/*">
+                </div>
+            </div>
+
+            <!-- Text & Style Configuration Form -->
+            <div class="glass section-card">
+                <h2><i class="fa-solid fa-sliders" style="color:var(--accent);"></i> Configure Text</h2>
+                <form id="meme-config-form" style="display:flex; flex-direction:column; gap:1.25rem;">
+                    
+                    <div class="form-group">
+                        <label>Top Text</label>
+                        <input type="text" class="input-field" id="txt-top" placeholder="TOP TEXT GOES HERE" value="WHEN CODE WORKS">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Bottom Text</label>
+                        <input type="text" class="input-field" id="txt-bottom" placeholder="BOTTOM TEXT GOES HERE" value="ON THE FIRST TRY">
+                    </div>
+
+                    <!-- Customizer panel sliders -->
+                    <div class="color-picker-row">
+                        <div class="form-group">
+                            <label>Text Color</label>
+                            <div class="color-input-wrapper">
+                                <input type="color" id="clr-text" value="#ffffff">
+                                <span style="font-size:0.85rem;" id="lbl-clr-text">#FFFFFF</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Stroke Color</label>
+                            <div class="color-input-wrapper">
+                                <input type="color" id="clr-stroke" value="#000000">
+                                <span style="font-size:0.85rem;" id="lbl-clr-stroke">#000000</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="display:grid; grid-template-columns: 1.2fr 1fr; gap:0.75rem;">
+                        <div class="form-group">
+                            <label>Font Family</label>
+                            <select class="input-field" id="select-font">
+                                <option value="Impact">Impact (Classic Meme)</option>
+                                <option value="Outfit">Outfit (Modern Rounded)</option>
+                                <option value="sans-serif">Default System Sans</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Font Size (px)</label>
+                            <input type="range" id="size-font" min="15" max="80" value="38" style="accent-color:var(--accent); margin-top:0.4rem;">
+                        </div>
+                    </div>
+
+                    <!-- Placement adjustments -->
+                    <div class="color-picker-row">
+                        <div class="form-group">
+                            <label>Top Text Position (%)</label>
+                            <input type="range" id="y-top" min="5" max="50" value="12" style="accent-color:var(--accent);">
+                        </div>
+                        <div class="form-group">
+                            <label>Bottom Text Position (%)</label>
+                            <input type="range" id="y-bottom" min="50" max="95" value="88" style="accent-color:var(--accent);">
+                        </div>
+                    </div>
+
+                    <!-- Action buttons -->
+                    <a class="btn-primary" id="btn-download" href="#" download="meme.png"><i class="fa-solid fa-download"></i> Download Meme</a>
+                </form>
+            </div>
+
+        </div>
+
+        <!-- ================= RIGHT COLUMN: LIVE CANVAS PREVIEW ================= -->
+        <div style="display:flex; flex-direction:column; gap:2rem;">
+            
+            <!-- Canvas preview wrapper -->
+            <div class="glass section-card">
+                <h2><i class="fa-solid fa-display" style="color:var(--accent);"></i> Live Output</h2>
+                <div class="canvas-wrapper">
+                    <canvas id="meme-canvas" width="500" height="500"></canvas>
+                </div>
+            </div>
+
+            <!-- Statistics Card -->
+            <div class="glass section-card">
+                <h2><i class="fa-solid fa-chart-line" style="color:var(--accent);"></i> Generator Stats</h2>
+                <div class="stats-grid">
+                    <div class="glass stat-item">
+                        <div class="stat-val" id="stat-templates">4</div>
+                        <div class="stat-lbl">Templates Available</div>
+                    </div>
+                    <div class="glass stat-item">
+                        <div class="stat-val" id="stat-generated">1</div>
+                        <div class="stat-lbl">Meme Downloaded</div>
+                    </div>
+                    <div class="glass stat-item">
+                        <div class="stat-val" id="stat-text-len">30</div>
+                        <div class="stat-lbl">Avg Characters</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Preset Templates Table -->
+            <div class="glass section-card">
+                <h2><i class="fa-solid fa-table-list" style="color:var(--accent);"></i> Comparative Index</h2>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Meme Template</th>
+                                <th>Aesthetic</th>
+                                <th>Ideal Ratio</th>
+                                <th style="text-align:right;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="templates-table-body">
+                            <!-- Presets comparison injected here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nimbus - Premium Weather Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- FontAwesome for Premium Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="glass">
+        <a href="#" class="logo">
+            <i class="fa-solid fa-cloud-sun-rain"></i> Nimbus
+        </a>
+        <button class="btn-icon" id="theme-toggle" title="Toggle Theme">
+            <i class="fa-solid fa-moon"></i>
+        </button>
+    </header>
+
+    <!-- App Container -->
+    <div class="weather-container">
+        
+        <!-- Sidebar: Presets Lookup -->
+        <aside class="glass" style="padding: 1.5rem; border-radius: var(--radius-md);">
+            <div class="sidebar-section">
+                <h3>Favorite Cities</h3>
+                <ul class="city-presets-list" id="presets-list">
+                    <li class="city-preset-item active" data-city="New York">
+                        <span>New York</span>
+                        <i class="fa-solid fa-location-arrow"></i>
+                    </li>
+                    <li class="city-preset-item" data-city="London">
+                        <span>London</span>
+                        <i class="fa-solid fa-location-arrow"></i>
+                    </li>
+                    <li class="city-preset-item" data-city="Tokyo">
+                        <span>Tokyo</span>
+                        <i class="fa-solid fa-location-arrow"></i>
+                    </li>
+                    <li class="city-preset-item" data-city="Sydney">
+                        <span>Sydney</span>
+                        <i class="fa-solid fa-location-arrow"></i>
+                    </li>
+                    <li class="city-preset-item" data-city="Paris">
+                        <span>Paris</span>
+                        <i class="fa-solid fa-location-arrow"></i>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Stats Block -->
+            <div class="sidebar-section" style="margin-top: 1rem; border-top: 1px solid var(--panel-border); padding-top: 1.5rem;">
+                <h3>Global Summary</h3>
+                <div style="display:flex; flex-direction:column; gap:1rem; padding: 0.5rem 0; font-size: 0.9rem;">
+                    <div style="display:flex; justify-content:space-between;">
+                        <span style="opacity:0.8;">Highest Temp</span>
+                        <strong id="stat-max-temp">31°C</strong>
+                    </div>
+                    <div style="display:flex; justify-content:space-between;">
+                        <span style="opacity:0.8;">Average Humidity</span>
+                        <strong id="stat-avg-humidity">65%</strong>
+                    </div>
+                    <div style="display:flex; justify-content:space-between;">
+                        <span style="opacity:0.8;">Wind Alert</span>
+                        <strong style="color: var(--accent);" id="stat-wind-alert">None</strong>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Dashboard Workspace -->
+        <main>
+            <!-- Search Form Input Row -->
+            <div class="search-form-row">
+                <form id="search-form" onsubmit="event.preventDefault();" class="search-field-wrapper glass">
+                    <i class="fa-solid fa-magnifying-glass" style="opacity: 0.5;"></i>
+                    <input type="text" id="city-search-input" placeholder="Search for any city (e.g. Rome, Mumbai)...">
+                    <button type="submit" style="display:none;"></button>
+                </form>
+                <div style="font-size: 0.9rem; color:var(--text-secondary);" id="current-time-lbl">Local Time: 18:50</div>
+            </div>
+
+            <!-- Active Dashboard Grid Splits -->
+            <div class="dashboard-split">
+                
+                <!-- Left: Current Weather Details Card -->
+                <div class="glass current-weather-card">
+                    <div>
+                        <div style="font-size: 1.35rem; font-weight:700;" id="curr-city-name">New York</div>
+                        <div style="font-size: 0.85rem; color:var(--text-secondary); margin-top: 0.25rem;" id="curr-date-lbl">Monday, July 20, 2026</div>
+                    </div>
+                    
+                    <div class="current-temp-block">
+                        <div>
+                            <div class="current-temp-val" id="curr-temp-val">28°C</div>
+                            <span class="badge sunny" style="display:inline-block; margin-top:0.5rem;" id="curr-status-badge">Sunny</span>
+                        </div>
+                        
+                        <!-- Dynamic SVG Icon Container -->
+                        <div id="curr-weather-icon-container">
+                            <!-- Injected dynamically by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Details Stats Grid -->
+                    <div class="weather-details-grid" style="border-top: 1px solid var(--panel-border); padding-top: 1.5rem;">
+                        <div class="detail-item">
+                            <i class="fa-solid fa-temperature-half detail-icon"></i>
+                            <div>
+                                <span class="detail-label">Feels Like</span>
+                                <div class="detail-value" id="det-feels-like">30°C</div>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fa-solid fa-wind detail-icon"></i>
+                            <div>
+                                <span class="detail-label">Wind Velocity</span>
+                                <div class="detail-value" id="det-wind">12 km/h</div>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fa-solid fa-droplet detail-icon"></i>
+                            <div>
+                                <span class="detail-label">Humidity</span>
+                                <div class="detail-value" id="det-humidity">58%</div>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fa-solid fa-sun detail-icon"></i>
+                            <div>
+                                <span class="detail-label">UV Index</span>
+                                <div class="detail-value" id="det-uv">6 (High)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: 5-Day Forecast list -->
+                <div class="glass" style="padding:2rem; border-radius:var(--radius-lg); display:flex; flex-direction:column; gap:1.25rem;">
+                    <h3 style="font-size:1.1rem; font-weight:600;"><i class="fa-solid fa-calendar-week" style="color:var(--accent);"></i> 5-Day Forecast</h3>
+                    <div class="forecast-list" id="forecast-container">
+                        <!-- Forecast items injected dynamically by JS -->
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Global Weather Comparison Table -->
+            <div class="glass table-card">
+                <h3 style="font-size: 1.1rem; font-weight: 600;"><i class="fa-solid fa-globe" style="color:var(--accent);"></i> Global Comparative Index</h3>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>City</th>
+                                <th>Country</th>
+                                <th>Temperature</th>
+                                <th>Condition</th>
+                                <th>Humidity</th>
+                                <th>Wind Speed</th>
+                            </tr>
+                        </thead>
+                        <tbody id="comparison-table-body">
+                            <!-- Comparison rows injected dynamically by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AuthShield - Secure Authentication UI</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- FontAwesome for Premium Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="glass">
+        <a href="#" class="logo">
+            <i class="fa-solid fa-shield-halved"></i> AuthShield
+        </a>
+        <button class="btn-icon" id="theme-toggle" title="Toggle Theme">
+            <i class="fa-solid fa-moon"></i>
+        </button>
+    </header>
+
+    <!-- App Container Layout splits -->
+    <div class="auth-workspace">
+        
+        <!-- ================= LEFT COLUMN: AUTHENTICATION CARD ================= -->
+        <div class="glass auth-panel-card">
+            
+            <!-- Sliding tab options -->
+            <div class="auth-tab-bar">
+                <button class="auth-tab-btn active" data-target="login-panel">Sign In</button>
+                <button class="auth-tab-btn" data-target="signup-panel">Register</button>
+                <button class="auth-tab-btn" data-target="forgot-panel">Recovery</button>
+            </div>
+
+            <!-- Panel 1: Login Form -->
+            <div class="auth-form-panel active" id="login-panel">
+                <div style="margin-bottom:0.5rem;">
+                    <h2 style="font-size:1.35rem; font-weight:700;">Welcome Back</h2>
+                    <p style="font-size:0.85rem; color:var(--text-secondary);">Access your secure developer dashboard.</p>
+                </div>
+                <form id="form-login" onsubmit="event.preventDefault();" style="display:flex; flex-direction:column; gap:1.15rem;">
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" class="input-field" id="li-email" placeholder="dev@domain.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" class="input-field" id="li-password" placeholder="••••••••" required>
+                    </div>
+                    <div class="checkbox-row">
+                        <label class="checkbox-label">
+                            <input type="checkbox" checked>
+                            <span>Keep me signed in</span>
+                        </label>
+                        <a href="#" class="forgot-link" style="color:var(--accent); text-decoration:none;" onclick="triggerTabSwap('forgot-panel')">Forgot Password?</a>
+                    </div>
+                    <button type="submit" class="btn-primary">Authenticate</button>
+                </form>
+            </div>
+
+            <!-- Panel 2: Signup Form -->
+            <div class="auth-form-panel" id="signup-panel">
+                <div style="margin-bottom:0.25rem;">
+                    <h2 style="font-size:1.35rem; font-weight:700;">Create Secure Account</h2>
+                    <p style="font-size:0.85rem; color:var(--text-secondary);">Start your free 14-day premium trial.</p>
+                </div>
+                <form id="form-signup" onsubmit="event.preventDefault();" style="display:flex; flex-direction:column; gap:1rem;">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" class="input-field" id="su-name" placeholder="John Doe" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" class="input-field" id="su-email" placeholder="dev@domain.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" class="input-field" id="su-password" placeholder="Create strong password" required>
+                        
+                        <!-- Dynamic Password Strength indicator -->
+                        <div class="strength-container">
+                            <div class="strength-bar-row">
+                                <div class="strength-segment" id="seg-1"></div>
+                                <div class="strength-segment" id="seg-2"></div>
+                                <div class="strength-segment" id="seg-3"></div>
+                                <div class="strength-segment" id="seg-4"></div>
+                            </div>
+                            <div class="strength-label" id="strength-lbl">Strength: None</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Confirm Password</label>
+                        <input type="password" class="input-field" id="su-confirm" placeholder="Repeat password" required>
+                    </div>
+                    <label class="checkbox-label" style="font-size:0.85rem;">
+                        <input type="checkbox" required>
+                        <span>I accept the secure privacy bylaws</span>
+                    </label>
+                    <button type="submit" class="btn-primary">Create Account</button>
+                </form>
+            </div>
+
+            <!-- Panel 3: Recovery / Forgot Password -->
+            <div class="auth-form-panel" id="forgot-panel">
+                <div style="margin-bottom:0.5rem;">
+                    <h2 style="font-size:1.35rem; font-weight:700;">Recover Credentials</h2>
+                    <p style="font-size:0.85rem; color:var(--text-secondary);">Enter your email to receive recovery instructions.</p>
+                </div>
+                <form id="form-forgot" onsubmit="event.preventDefault();" style="display:flex; flex-direction:column; gap:1.25rem;">
+                    <div class="form-group">
+                        <label>Registered Email Address</label>
+                        <input type="email" class="input-field" id="fo-email" placeholder="dev@domain.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Security Captcha Quiz: What is 4 + 7?</label>
+                        <input type="number" class="input-field" id="fo-captcha" placeholder="Your Answer" required>
+                    </div>
+                    <button type="submit" class="btn-primary">Generate Recovery Link</button>
+                </form>
+            </div>
+
+            <!-- OAuth Divider and Buttons -->
+            <div class="oauth-divider">Or authenticate via</div>
+            <div class="oauth-row">
+                <button class="btn-oauth" onclick="triggerOAuth('Google')">
+                    <i class="fa-brands fa-google"></i>
+                </button>
+                <button class="btn-oauth" onclick="triggerOAuth('Github')">
+                    <i class="fa-brands fa-github"></i>
+                </button>
+                <button class="btn-oauth" onclick="triggerOAuth('Apple')">
+                    <i class="fa-brands fa-apple"></i>
+                </button>
+            </div>
+
+        </div>
+
+        <!-- ================= RIGHT COLUMN: SECURITY DASHBOARD ================= -->
+        <div class="glass sec-dashboard-card">
+            
+            <div style="margin-bottom:0.5rem;">
+                <h2 style="font-size:1.25rem; font-weight:700;"><i class="fa-solid fa-circle-nodes" style="color:var(--accent);"></i> Account Status Dashboard</h2>
+                <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:0.25rem;">Security analytics logged for active sandbox environment.</p>
+            </div>
+
+            <!-- Stats Bar -->
+            <div class="stats-bar-grid">
+                <div class="glass stat-item">
+                    <div class="stat-val" id="stat-sessions">3 Active</div>
+                    <div class="stat-lbl">Sessions Logged</div>
+                </div>
+                <div class="glass stat-item">
+                    <div class="stat-val" style="color: var(--success);" id="stat-failed">0 Failures</div>
+                    <div class="stat-lbl">Failed Logins</div>
+                </div>
+                <div class="glass stat-item">
+                    <div class="stat-val">Grade A+</div>
+                    <div class="stat-lbl">Security Rating</div>
+                </div>
+            </div>
+
+            <!-- Recent logins Devices Audits table -->
+            <div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+                    <h3 style="font-size:0.95rem; font-weight:600;"><i class="fa-solid fa-list-check" style="color:var(--accent);"></i> Session Audit Log</h3>
+                    
+                    <!-- Search & Filters -->
+                    <div class="search-row">
+                        <input type="text" class="search-field" id="log-search" placeholder="Search logs...">
+                        <select class="search-field" id="log-filter" style="width:100px;">
+                            <option value="all">All Logs</option>
+                            <option value="success">Success</option>
+                            <option value="failed">Failed</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Device & Browser</th>
+                                <th>IP Address</th>
+                                <th>Location</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="logs-table-body">
+                            <!-- Logs injected by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Toast Banner Overlay Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SnippetBox - Developer Code Manager</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- FontAwesome for Premium Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="glass">
+        <a href="#" class="logo">
+            <i class="fa-solid fa-code"></i> SnippetBox
+        </a>
+        <button class="btn-icon" id="theme-toggle" title="Toggle Theme">
+            <i class="fa-solid fa-moon"></i>
+        </button>
+    </header>
+
+    <!-- App Container -->
+    <div class="app-container">
+        
+        <!-- Sidebar Navigation Filters -->
+        <aside class="glass">
+            <div class="sidebar-section">
+                <h3>Languages</h3>
+                <ul class="lang-list" id="languages-sidebar-list">
+                    <li class="lang-item active" data-lang="all">
+                        <span>All Snippets</span>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </li>
+                    <li class="lang-item" data-lang="javascript">
+                        <span>JavaScript</span>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </li>
+                    <li class="lang-item" data-lang="python">
+                        <span>Python</span>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </li>
+                    <li class="lang-item" data-lang="css">
+                        <span>CSS3</span>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </li>
+                    <li class="lang-item" data-lang="html">
+                        <span>HTML5</span>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </li>
+                    <li class="lang-item" data-lang="sql">
+                        <span>SQL</span>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Stats Block -->
+            <div class="sidebar-section" style="margin-top: 1rem; border-top: 1px solid var(--panel-border); padding-top: 1.5rem;">
+                <h3>Snippet Analytics</h3>
+                <div style="display:flex; flex-direction:column; gap:1rem; padding: 0.5rem 0; font-size: 0.9rem;">
+                    <div style="display:flex; justify-content:space-between;">
+                        <span style="opacity:0.8;">Total Snippets</span>
+                        <strong id="stat-total">0</strong>
+                    </div>
+                    <div style="display:flex; justify-content:space-between;">
+                        <span style="opacity:0.8;">Most Used</span>
+                        <strong id="stat-favorite">JS</strong>
+                    </div>
+                    <div style="display:flex; justify-content:space-between;">
+                        <span style="opacity:0.8;">Total Copied</span>
+                        <strong id="stat-copies">0</strong>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Workspace -->
+        <main>
+            <!-- Top Search and Add button -->
+            <div class="top-search-row">
+                <div class="search-field-wrapper glass">
+                    <i class="fa-solid fa-magnifying-glass" style="opacity: 0.5;"></i>
+                    <input type="text" id="snippet-search" placeholder="Search title, description, keywords...">
+                </div>
+                <button class="btn-primary" id="btn-new-snippet"><i class="fa-solid fa-circle-plus"></i> New Snippet</button>
+            </div>
+
+            <!-- Snippets cards grid -->
+            <section style="display:flex; flex-direction:column; gap:1rem; flex: 1;">
+                <h3 style="font-size:1.15rem; font-weight:600;"><i class="fa-solid fa-folder-open" style="color:var(--accent);"></i> Snippets Grid</h3>
+                <div class="snippets-grid" id="snippets-container">
+                    <!-- Dynamic snippet cards injected by JS -->
+                </div>
+            </section>
+
+            <!-- Comparative Index Table -->
+            <div class="glass table-card">
+                <h3 style="font-size: 1.1rem; font-weight: 600;"><i class="fa-solid fa-table-list" style="color:var(--accent);"></i> Code Base Syntax Catalog</h3>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Programming Language</th>
+                                <th>Snippets Logged</th>
+                                <th>Syntax Difficulty</th>
+                                <th>Ideal File Extension</th>
+                                <th style="text-align:right;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="languages-table-body">
+                            <!-- Injected dynamically by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Edit/Create Snippet Form Modal -->
+    <div class="modal-overlay" id="snippet-modal">
+        <div class="modal-box glass">
+            <h2 id="modal-title" style="font-size:1.35rem; font-weight:700;">Add New Snippet</h2>
+            <form id="snippet-form" onsubmit="event.preventDefault();" style="display:flex; flex-direction:column; gap:1.25rem;">
+                <input type="hidden" id="form-snippet-id">
+                
+                <div class="form-group">
+                    <label>Snippet Title</label>
+                    <input type="text" class="input-field" id="form-title" placeholder="e.g. Center a Div, Debounce Search" required>
+                </div>
+
+                <div style="display:grid; grid-template-columns: 1fr 1.2fr; gap:0.75rem;">
+                    <div class="form-group">
+                        <label>Language Tag</label>
+                        <select class="input-field" id="form-language">
+                            <option value="javascript">JavaScript</option>
+                            <option value="python">Python</option>
+                            <option value="css">CSS3</option>
+                            <option value="html">HTML5</option>
+                            <option value="sql">SQL</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Brief Description</label>
+                        <input type="text" class="input-field" id="form-desc" placeholder="What does this code do?" required>
+                    </div>
+                </div>
+
+                <!-- Monospace editor area -->
+                <div class="form-group">
+                    <label>Monospace Code</label>
+                    <textarea class="input-field" id="form-code" rows="8" placeholder="paste/write snippet here..." style="font-family:'Space Mono', monospace; font-size:0.8rem;" required></textarea>
+                </div>
+
+                <div style="display:flex; justify-content:flex-end; gap:0.75rem; margin-top:0.5rem;">
+                    <button type="button" class="btn-secondary" id="close-modal">Cancel</button>
+                    <button type="submit" class="btn-primary" style="padding:0.6rem 1.5rem;">Save Snippet</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

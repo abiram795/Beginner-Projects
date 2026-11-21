@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PrepChef - Interactive Weekly Meal Planner</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- FontAwesome for Premium Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="glass">
+        <a href="#" class="logo">
+            <i class="fa-solid fa-calendar-check"></i> PrepChef
+        </a>
+        <div style="font-size:0.95rem; font-weight:600; color:var(--text-secondary);" id="curr-week-lbl">Current Week: July 20 - July 26</div>
+        <button class="btn-icon" id="theme-toggle" title="Toggle Theme">
+            <i class="fa-solid fa-moon"></i>
+        </button>
+    </header>
+
+    <!-- App Container Layout splits -->
+    <div class="planner-container">
+        
+        <!-- ================= LEFT COLUMN: WEEKLY PLANNER GRID ================= -->
+        <div class="glass section-card">
+            <h2><i class="fa-solid fa-calendar-days" style="color:var(--accent);"></i> Weekly Schedule</h2>
+            <div class="weekly-calendar-grid" id="weekly-calendar-container">
+                <!-- Day rows injected by JS -->
+            </div>
+        </div>
+
+        <!-- ================= RIGHT COLUMN: NUTRITION & SHOPPING LIST ================= -->
+        <div style="display:flex; flex-direction:column; gap:2rem;">
+            
+            <!-- Daily Nutrition tracker dashboard -->
+            <div class="glass section-card">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <h2><i class="fa-solid fa-circle-dot" style="color:var(--accent);"></i> Nutrition Summary</h2>
+                    <select class="input-field" id="select-nutrition-day" style="width:130px; padding:0.4rem 0.5rem; font-size:0.85rem;">
+                        <option value="Monday">Monday</option>
+                        <option value="Tuesday">Tuesday</option>
+                        <option value="Wednesday">Wednesday</option>
+                        <option value="Thursday">Thursday</option>
+                        <option value="Friday">Friday</option>
+                        <option value="Saturday">Saturday</option>
+                        <option value="Sunday">Sunday</option>
+                    </select>
+                </div>
+                
+                <div class="nutrition-gauges-container">
+                    <div class="nutri-gauge">
+                        <div class="nutri-val" style="color:var(--accent);" id="nutri-cals">0</div>
+                        <span class="nutri-lbl">Calories (kcal)</span>
+                    </div>
+                    <div class="nutri-gauge">
+                        <div class="nutri-val" style="color:#3b82f6;" id="nutri-carbs">0g</div>
+                        <span class="nutri-lbl">Carbs</span>
+                    </div>
+                    <div class="nutri-gauge">
+                        <div class="nutri-val" style="color:#ef4444;" id="nutri-protein">0g</div>
+                        <span class="nutri-lbl">Protein</span>
+                    </div>
+                    <div class="nutri-gauge">
+                        <div class="nutri-val" style="color:#f59e0b;" id="nutri-fats">0g</div>
+                        <span class="nutri-lbl">Fats</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Create custom meal recipe form -->
+            <div class="glass section-card">
+                <h2><i class="fa-solid fa-circle-plus" style="color:var(--accent);"></i> Create Custom Dish</h2>
+                <form id="recipe-add-form" onsubmit="event.preventDefault();" style="display:flex; flex-direction:column; gap:1.15rem;">
+                    
+                    <div class="form-group">
+                        <label>Dish Name</label>
+                        <input type="text" class="input-field" id="form-dish-name" placeholder="e.g. Greek Quinoa Salad" required>
+                    </div>
+
+                    <div style="display:grid; grid-template-columns:1.2fr 1fr; gap:0.75rem;">
+                        <div class="form-group">
+                            <label>Default Meal Tag</label>
+                            <select class="input-field" id="form-dish-tag">
+                                <option value="breakfast">Breakfast</option>
+                                <option value="lunch">Lunch</option>
+                                <option value="dinner">Dinner</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Calories (kcal)</label>
+                            <input type="number" class="input-field" id="form-dish-cals" value="350" required>
+                        </div>
+                    </div>
+
+                    <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem;">
+                        <div class="form-group">
+                            <label>Carbs (g)</label>
+                            <input type="number" class="input-field" id="form-dish-carbs" value="40" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Protein (g)</label>
+                            <input type="number" class="input-field" id="form-dish-protein" value="15" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Fats (g)</label>
+                            <input type="number" class="input-field" id="form-dish-fats" value="10" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Ingredients (comma separated)</label>
+                        <input type="text" class="input-field" id="form-dish-ingredients" placeholder="Quinoa, Tomatoes, Feta, Olive Oil" required>
+                    </div>
+
+                    <button type="submit" class="btn-primary">Save to Catalog</button>
+                </form>
+            </div>
+
+            <!-- Auto Generated Shopping List Card Table -->
+            <div class="glass section-card">
+                <h2><i class="fa-solid fa-basket-shopping" style="color:var(--accent);"></i> Grocery Shopping List</h2>
+                <div class="filter-row">
+                    <div class="search-wrapper">
+                        <i class="fa-solid fa-magnifying-glass" style="opacity: 0.5;"></i>
+                        <input type="text" id="grocery-search" placeholder="Search shopping items...">
+                    </div>
+                </div>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 40px;">Checked</th>
+                                <th>Ingredient</th>
+                                <th style="text-align:right;">Source Category</th>
+                            </tr>
+                        </thead>
+                        <tbody id="shopping-list-body">
+                            <!-- Injected dynamically by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Select Recipe Modal Overlay -->
+    <div class="modal-overlay" id="recipe-select-modal">
+        <div class="modal-box glass">
+            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--panel-border); padding-bottom:0.75rem;">
+                <h3 id="modal-select-title">Assign Breakfast Meal</h3>
+                <button class="btn-icon" id="close-select-modal"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <div class="search-field-wrapper" style="width: 100%;">
+                <i class="fa-solid fa-magnifying-glass" style="opacity: 0.5;"></i>
+                <input type="text" id="recipe-catalog-search" placeholder="Search recipe catalog...">
+            </div>
+
+            <div class="recipe-select-list" id="recipe-catalog-list">
+                <!-- Recipes templates listed here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

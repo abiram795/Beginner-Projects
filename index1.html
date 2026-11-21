@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beginner Frontend Project Collection - Portfolio Dashboard</title>
+    <!-- Outfit Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+:root {
+  /* Navy & Peach Palette Variables */
+  --c-dark-1: #103243;        /* Deep Navy Blue Deep */
+  --c-dark-2: #163B4E;        /* Deep Navy Surface */
+  --c-indigo-1: #1C455B;      /* Slate Navy Ink */
+  --c-indigo-2: #444655;      /* Charcoal Slate */
+  --c-violet: #A47265;        /* Muted Terracotta Accent */
+  --c-lavender: #C48777;      /* Bright Terracotta */
+  --c-mauve-1: #DF9C84;       /* Soft Peach (Primary Accent) */
+  --c-mauve-2: #F5D3C8;       /* Soft Peach Light / Cream */
+
+  /* Component Mappings */
+  --bg-gradient: radial-gradient(circle at top right, rgba(223, 156, 132, 0.15), transparent 40%),
+                 linear-gradient(135deg, var(--c-dark-1) 0%, var(--c-dark-2) 100%);
+  --panel-bg: rgba(22, 59, 78, 0.55);
+  --panel-border: rgba(164, 114, 101, 0.35);
+  --text-primary: #f8fafc;
+  --text-secondary: var(--c-mauve-2);
+  --accent: var(--c-mauve-1);
+  --accent-hover: var(--c-violet);
+  --accent-light: rgba(223, 156, 132, 0.12);
+  --shadow: 0 8px 32px 0 rgba(16, 50, 67, 0.6);
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-theme="dark"] {
+  --bg-gradient: radial-gradient(circle at top right, rgba(164, 114, 101, 0.15), transparent 40%),
+                 linear-gradient(135deg, #0a222e 0%, #103243 100%);
+  --panel-bg: rgba(16, 50, 67, 0.65);
+  --panel-border: rgba(223, 156, 132, 0.25);
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd1d5;
+  --accent: var(--c-mauve-1);
+  --accent-hover: var(--c-violet);
+  --shadow: 0 8px 32px 0 rgba(10, 34, 46, 0.8);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Outfit', sans-serif;
+  background: var(--bg-gradient);
+  color: var(--text-primary);
+  min-height: 100vh;
+  padding: 2rem 1.5rem;
+  transition: background 0.5s ease, color 0.3s ease;
+}
+
+/* ════ BACK BUTTON STYLES ════ */
+.btn-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: var(--c-mauve-2);
+  padding: 10px 22px;
+  border-radius: 12px;
+  border: 1px solid rgba(223, 156, 132, 0.3);
+  background: rgba(28, 69, 91, 0.45);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: var(--transition);
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 15px rgba(16, 50, 67, 0.4);
+}
+
+.btn-back:hover {
+  background: linear-gradient(135deg, var(--c-violet), var(--c-mauve-1));
+  color: #103243;
+  border-color: transparent;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(223, 156, 132, 0.4);
+}
+
+.glass {
+  background: var(--panel-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--panel-border);
+  box-shadow: var(--shadow);
+}
+
+header {
+  max-width: 1200px;
+  margin: 0 auto 3rem auto;
+  padding: 2rem;
+  border-radius: var(--radius-lg);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.header-title h1 {
+  font-size: 2.25rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--c-mauve-1), var(--c-mauve-2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 20px rgba(223, 156, 132, 0.25);
+}
+
+.header-title p {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  margin-top: 0.25rem;
+}
+
+.controls-row {
+  max-width: 1200px;
+  margin: 0 auto 2rem auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+/* Search input */
+.search-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.2rem;
+  border-radius: 30px;
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  width: 350px;
+  max-width: 100%;
+  transition: var(--transition);
+}
+
+.search-wrapper:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 15px rgba(223, 156, 132, 0.25);
+}
+
+.search-wrapper input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text-primary);
+  font-family: inherit;
+  width: 100%;
+}
+
+/* Category Filter Pills */
+.filters-group {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.filter-pill {
+  padding: 0.5rem 1.25rem;
+  border-radius: 20px;
+  border: 1px solid var(--panel-border);
+  background: var(--panel-bg);
+  color: var(--text-secondary);
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.filter-pill.active, .filter-pill:hover {
+  background: linear-gradient(135deg, var(--c-violet), var(--c-mauve-1));
+  color: #103243;
+  border-color: transparent;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(164, 114, 101, 0.35);
+}
+
+/* Projects Cards Grid */
+.portfolio-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.project-card {
+  border-radius: var(--radius-md);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  transition: var(--transition);
+  cursor: pointer;
+}
+
+/* Styling for CodePen Grid Cards */
+.project-card.featured-codepen-card {
+  grid-column: span 2;
+  cursor: default;
+}
+
+.project-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--accent);
+  box-shadow: 0 12px 40px rgba(223, 156, 132, 0.2);
+}
+
+.project-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.project-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: var(--accent-light);
+  border: 1px solid rgba(223, 156, 132, 0.25);
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.35rem;
+}
+
+.project-category {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--accent);
+}
+
+.project-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.project-desc {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.45;
+  height: 4.35em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.btn-launch {
+  align-self: flex-start;
+  padding: 0.5rem 1.25rem;
+  border-radius: 20px;
+  background: linear-gradient(135deg, var(--c-violet), var(--c-mauve-1));
+  color: #103243;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: var(--transition);
+  margin-top: auto;
+  box-shadow: 0 4px 15px rgba(164, 114, 101, 0.3);
+}
+
+.btn-launch:hover {
+  opacity: 0.95;
+  transform: translateX(3px);
+  box-shadow: 0 6px 20px rgba(223, 156, 132, 0.45);
+}
+
+/* Theme Toggler */
+.btn-icon {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  color: var(--text-primary);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.15rem;
+  transition: var(--transition);
+}
+
+.btn-icon:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(223, 156, 132, 0.3);
+}
+
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+  .controls-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .search-wrapper {
+    width: 100%;
+  }
+  .btn-icon {
+    align-self: center;
+  }
+  .project-card.featured-codepen-card {
+    grid-column: span 1;
+  }
+}
+    </style>
+</head>
+<body>
+
+    <!-- Back Button pointing to root directory index.html -->
+    <a href="../index.html" class="btn-back">
+        <i class="fa-solid fa-arrow-left"></i> Back to Portfolio
+    </a>
+
+    <!-- Header Block -->
+    <header class="glass">
+        <div class="header-title">
+            <h1>Frontend Project Suite</h1>
+            <p>19 Premium Standalone Beginner-Level Applications</p>
+        </div>
+        <button class="btn-icon" id="theme-toggle" title="Toggle Theme">
+            <i class="fa-solid fa-moon"></i>
+        </button>
+    </header>
+
+    <!-- Controls Row -->
+    <div class="controls-row">
+        <div class="search-wrapper glass">
+            <i class="fa-solid fa-magnifying-glass" style="opacity: 0.5;"></i>
+            <input type="text" id="project-search" placeholder="Search projects by name, tags...">
+        </div>
+        
+        <div class="filters-group">
+            <button class="filter-pill active" data-filter="all">All Projects</button>
+            <button class="filter-pill" data-filter="e-commerce">E-Commerce</button>
+            <button class="filter-pill" data-filter="management">Management & Portal</button>
+            <button class="filter-pill" data-filter="productivity">Productivity & Tools</button>
+            <button class="filter-pill" data-filter="finance">Finance</button>
+            <button class="filter-pill" data-filter="creative">Creative & Fun</button>
+        </div>
+    </div>
+
+    <!-- Grid Layout -->
+    <div class="portfolio-grid" id="portfolio-grid-container">
+        <!-- Project cards injected dynamically by JS -->
+    </div>
+
+    <script>
+        const PROJECTS = [
+            { name: "Online Bookstore", folder: "Online-Bookstore", icon: "fa-book-bookmark", cat: "e-commerce", desc: "Catalog grid, wishlist tables, checkout simulation, and search query filters." },
+            { name: "Quiz Application", folder: "Quiz-App", icon: "fa-circle-question", cat: "creative", desc: "Configuration panels, SVG circular timers, result review logs, and high scores." },
+            { name: "Student Portal System", folder: "Student-Portal", icon: "fa-graduation-cap", cat: "management", desc: "GPA trackers, academic calendars, timetables, and lecture notes calculators." },
+            { name: "Portfolio Builder", folder: "Portfolio-Builder", icon: "fa-address-card", cat: "productivity", desc: "Dual editor-preview splits, schemas JSON export, and printing presets." },
+            { 
+              name: "Chronicle Blog Platform", 
+              folder: "Blog-Platform", 
+              icon: "fa-medium", 
+              cat: "creative", 
+              desc: "Story hero panels, readers overlay, likes counts, tag filters, and publisher analytics.",
+              isCodePenEmbed: true,
+              penId: "019f9446-2dd2-7eda-9411-1039d12f53e4"
+            },
+            { name: "Recipe Sharing Platform", folder: "Recipe-Sharing", icon: "fa-utensils", cat: "creative", desc: "Prep sliders, ingredient checkers, directions arrays, and recipe submitters." },
+            { 
+              name: "Scribble Note-Taking App", 
+              folder: "Note-Taking-App", 
+              icon: "fa-pen-nib", 
+              cat: "creative", 
+              desc: "Interactive notepad application with responsive layout, live editing, and quick text formatting.",
+              isCodePenEmbed: true,
+              penId: "019f9437-8ec3-7bdf-a2dd-a35a341ee270"
+            },
+            { 
+              name: "FINWISE Financial Dashboard", 
+              folder: "Expense-Tracker", 
+              icon: "fa-chart-pie", 
+              cat: "finance", 
+              desc: "Comprehensive expense ledger, budget allocation, transaction history, and custom charts.",
+              isCodePenEmbed: true,
+              penId: "019f9439-a022-7c52-bb8c-0774ce95b078"
+            },
+            { 
+              name: "SnippetBox Code Manager", 
+              folder: "Code-Snippet-Manager", 
+              icon: "fa-code", 
+              cat: "productivity", 
+              desc: "Monospace code line numbers, syntax tags, snippet organization, and copy triggers.",
+              isCodePenEmbed: true,
+              penId: "019f943d-0878-7cc8-934c-77f31895758a"
+            },
+            { 
+              name: "SpendWise Budgeting Tool", 
+              folder: "Budget-Planning", 
+              icon: "fa-wallet", 
+              cat: "finance", 
+              desc: "Income setups, spending limits, warning indicators, and category progress bars.",
+              isCodePenEmbed: true,
+              penId: "019f943f-8c3c-7d45-8162-f04e2f4f7684"
+            },
+            { 
+              name: "FlexPulse Fitness Tracker", 
+              folder: "Fitness-Tracker", 
+              icon: "fa-heart-pulse", 
+              cat: "productivity", 
+              desc: "Daily steps tracker, calorie progress bars, workout database, and BMI advisory panels.",
+              isCodePenEmbed: true,
+              penId: "019f9440-ba8a-7d77-9cfa-dbfbfe275a87"
+            },
+            { 
+              name: "PrepChef Recipe App", 
+              folder: "Meal-Planner", 
+              icon: "fa-utensils", 
+              cat: "management", 
+              desc: "Meal planning schedule, grocery shopping list builders, and dietary trackers.",
+              isCodePenEmbed: true,
+              penId: "019f9441-d904-7dc2-8ba0-cf388fed8dc6"
+            },
+            { 
+              name: "Memeify Generator", 
+              folder: "Meme-Generator", 
+              icon: "fa-face-grin-squint", 
+              cat: "creative", 
+              desc: "HTML5 Canvas image editor, text positioning sliders, custom file readers, and quick download.",
+              isCodePenEmbed: true,
+              penId: "019f9443-7281-7e41-8d0a-4babf60f5f08"
+            },
+            { name: "Weather Application", folder: "Weather-App", icon: "fa-cloud-sun", cat: "productivity", desc: "5-day forecast columns, global search comparisons, and animated SVG badges." },
+            { name: "News Aggregator", folder: "News-Aggregator", icon: "fa-newspaper", cat: "productivity", desc: "Category tags, bookmarks drawers, headlines feeds, and subscription forms." },
+            { 
+              name: "AuthShield Authentication UI", 
+              folder: "Authentication-System", 
+              icon: "fa-shield-halved", 
+              cat: "management", 
+              desc: "Tabs switch panels, strength meters, Google/Github OAuth, and session logs.",
+              isCodePenEmbed: true,
+              penId: "019f9423-20f4-7873-9bb5-0171020e31c6"
+            },
+            { name: "URL Shortener", folder: "URL-Shortener", icon: "fa-link", cat: "productivity", desc: "Custom aliases settings, results copy metrics, and visits count logs." },
+            { name: "Restaurant Menu Manager", folder: "Restaurant-Menu", icon: "fa-pizza-slice", cat: "management", desc: "Stock toggles, admin editor panels, table indexes, and ordering carts." },
+            { 
+              name: "MailGrid Newsletter Platform", 
+              folder: "Newsletter-Platform", 
+              icon: "fa-paper-plane", 
+              cat: "management", 
+              desc: "Dispatch selectors, template loaders, status flags, and subscriber list managers.",
+              isCodePenEmbed: true,
+              penId: "019f9448-319c-7f3d-a17b-a016e6bcf2a1"
+            }
+        ];
+
+        // State
+        let activeFilter = 'all';
+        let searchQuery = '';
+
+        // DOM
+        const gridContainer = document.getElementById('portfolio-grid-container');
+        const searchInput = document.getElementById('project-search');
+        const filterPills = document.querySelectorAll('.filter-pill');
+        const themeToggle = document.getElementById('theme-toggle');
+
+        function renderGrid() {
+            gridContainer.innerHTML = '';
+            
+            const filtered = PROJECTS.filter(p => {
+                const matchesFilter = activeFilter === 'all' || p.cat === activeFilter;
+                const matchesSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                                      p.desc.toLowerCase().includes(searchQuery.toLowerCase());
+                return matchesFilter && matchesSearch;
+            });
+
+            if (filtered.length === 0) {
+                gridContainer.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; padding: 4rem; opacity: 0.6;">
+                        <i class="fa-regular fa-folder-open" style="font-size: 4rem; margin-bottom: 1.5rem; color:var(--accent);"></i>
+                        <h3>No projects matched criteria</h3>
+                    </div>
+                `;
+                return;
+            }
+
+            filtered.forEach(p => {
+                const card = document.createElement('div');
+                
+                // If this project has an interactive CodePen embed
+                if (p.isCodePenEmbed) {
+                    card.className = 'project-card glass featured-codepen-card';
+                    card.innerHTML = `
+                        <div class="project-card-header">
+                            <div class="project-icon"><i class="fa-brands fa-codepen"></i></div>
+                            <span class="project-category">${p.cat} · Interactive Code</span>
+                        </div>
+                        <h3 class="project-title">${p.name}</h3>
+                        <p class="project-desc">${p.desc}</p>
+                        <iframe 
+                          height="380" 
+                          style="width: 100%; border: 0; border-radius: 12px; margin-top: 0.5rem;" 
+                          title="${p.name}" 
+                          src="https://codepen.io/Abiram-the-vuer/embed/${p.penId}?default-tab=result&theme-id=dark" 
+                          loading="lazy" 
+                          allowfullscreen="true">
+                        </iframe>
+                        <div style="display: flex; gap: 0.5rem; margin-top: auto; flex-wrap: wrap;">
+                            <a href="${p.folder}/index.html" class="btn-launch">
+                                <span>Launch Full App</span> <i class="fa-solid fa-arrow-right-long"></i>
+                            </a>
+                            <a href="https://codepen.io/Abiram-the-vuer/pen/${p.penId}" target="_blank" class="btn-launch" style="background: rgba(123, 44, 191, 0.35); border: 1px solid var(--panel-border);">
+                                <i class="fa-brands fa-codepen"></i> <span>Open in CodePen</span>
+                            </a>
+                        </div>
+                    `;
+                } else {
+                    card.className = 'project-card glass';
+                    card.innerHTML = `
+                        <div class="project-card-header">
+                            <div class="project-icon"><i class="fa-solid ${p.icon}"></i></div>
+                            <span class="project-category">${p.cat}</span>
+                        </div>
+                        <h3 class="project-title">${p.name}</h3>
+                        <p class="project-desc">${p.desc}</p>
+                        <a href="${p.folder}/index.html" class="btn-launch">
+                            <span>Launch App</span> <i class="fa-solid fa-arrow-right-long"></i>
+                        </a>
+                    `;
+                    
+                    card.addEventListener('click', () => {
+                        window.location.href = `${p.folder}/index.html`;
+                    });
+                }
+
+                gridContainer.appendChild(card);
+            });
+        }
+
+        // Listeners
+        searchInput.addEventListener('input', (e) => {
+            searchQuery = e.target.value;
+            renderGrid();
+        });
+
+        filterPills.forEach(pill => {
+            pill.addEventListener('click', () => {
+                filterPills.forEach(p => p.classList.remove('active'));
+                pill.classList.add('active');
+                activeFilter = pill.getAttribute('data-filter');
+                renderGrid();
+            });
+        });
+
+        // Theme
+        function setupTheme() {
+            const savedTheme = localStorage.getItem('suite_theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeIcon(savedTheme);
+        }
+
+        themeToggle.addEventListener('click', () => {
+            const current = document.documentElement.getAttribute('data-theme');
+            const target = current === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', target);
+            localStorage.setItem('suite_theme', target);
+            updateThemeIcon(target);
+        });
+
+        function updateThemeIcon(theme) {
+            const icon = themeToggle.querySelector('i');
+            if (theme === 'dark') {
+                icon.className = 'fa-solid fa-sun';
+            } else {
+                icon.className = 'fa-solid fa-moon';
+            }
+        }
+
+        // Run
+        setupTheme();
+        renderGrid();
+    </script>
+</body>
+</html>

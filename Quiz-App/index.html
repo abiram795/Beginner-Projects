@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brainiac - Interactive Quiz Hub</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- FontAwesome for Premium Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Theme Toggle Wrapper -->
+    <div class="theme-btn-wrapper">
+        <button class="btn-icon" id="theme-toggle" title="Toggle Theme">
+            <i class="fa-solid fa-moon"></i>
+        </button>
+    </div>
+
+    <!-- Quiz Main Card -->
+    <div class="quiz-container glass">
+        
+        <!-- ================= PANEL 1: CONFIGURATION LANDING ================= -->
+        <div class="panel active" id="config-panel">
+            <div style="text-align: center; display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1rem;">
+                <div style="color: var(--accent); font-size: 2.5rem;"><i class="fa-solid fa-graduation-cap"></i></div>
+                <h1 style="font-size: 2rem; font-weight: 700;">Welcome to Brainiac</h1>
+                <p style="color: var(--text-secondary);">Select a topic and difficulty to test your cognitive limits!</p>
+            </div>
+
+            <!-- Categories Selection -->
+            <div class="form-group">
+                <label>Choose Category</label>
+                <div class="select-btn-group" id="category-group">
+                    <button class="btn-select selected" data-value="javascript">JavaScript</button>
+                    <button class="btn-select" data-value="science">Science</button>
+                    <button class="btn-select" data-value="history">History</button>
+                    <button class="btn-select" data-value="geography">Geography</button>
+                </div>
+            </div>
+
+            <!-- Difficulty Selection -->
+            <div class="form-group">
+                <label>Select Difficulty</label>
+                <div class="select-btn-group" id="difficulty-group">
+                    <button class="btn-select selected" data-value="easy">Easy (15s)</button>
+                    <button class="btn-select" data-value="medium">Medium (10s)</button>
+                </div>
+            </div>
+
+            <button class="btn-primary" id="btn-start">Start Quiz <i class="fa-solid fa-play" style="margin-left: 0.25rem;"></i></button>
+
+            <!-- High Scores Dashboard Section -->
+            <div style="margin-top: 1rem; border-top: 1px solid var(--panel-border); padding-top: 1.5rem;">
+                <h3 style="font-size: 0.95rem; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.4rem; color: var(--text-secondary);">
+                    <i class="fa-solid fa-trophy" style="color: var(--warning);"></i> High Scores
+                </h3>
+                <ul class="high-scores-list" id="high-scores-list">
+                    <!-- High scores items injected by JS -->
+                </ul>
+            </div>
+        </div>
+
+        <!-- ================= PANEL 2: ACTIVE QUIZ DASHBOARD ================= -->
+        <div class="panel" id="quiz-panel">
+            <div class="quiz-header">
+                <div>
+                    <span class="quiz-progress-text" id="progress-text">Question 1 of 5</span>
+                    <div style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 0.25rem;" id="category-badge">JavaScript</div>
+                </div>
+                <!-- Circular Timer SVG -->
+                <div class="timer-wrapper">
+                    <svg class="timer-svg">
+                        <circle class="timer-bg" cx="30" cy="30" r="26"></circle>
+                        <circle class="timer-progress" cx="30" cy="30" r="26" id="timer-indicator"></circle>
+                    </svg>
+                    <span class="timer-text" id="timer-val">15</span>
+                </div>
+            </div>
+
+            <!-- Horizontal Progress bar -->
+            <div class="progress-bar-container">
+                <div class="progress-bar-fill" id="progress-bar-fill"></div>
+            </div>
+
+            <!-- Question Block -->
+            <div class="question-title" id="question-text">
+                Which keyword is used to declare a block-scoped variable in modern JavaScript?
+            </div>
+
+            <!-- Choices Container -->
+            <div class="options-container" id="options-container">
+                <!-- Option cards will be injected by script.js -->
+            </div>
+
+            <!-- Next button -->
+            <button class="btn-primary" id="btn-next" style="display: none; align-self: flex-end; padding: 0.75rem 1.5rem;">Next Question <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+
+        <!-- ================= PANEL 3: RESULT DASHBOARD ================= -->
+        <div class="panel" id="result-panel">
+            <div style="text-align: center; display: flex; flex-direction: column; gap: 0.5rem;">
+                <div style="color: var(--accent); font-size: 3rem;"><i class="fa-solid fa-circle-check"></i></div>
+                <h1 style="font-size: 1.85rem; font-weight: 700;">Quiz Completed!</h1>
+                <p style="color: var(--text-secondary);">Here is how you performed in this challenge.</p>
+            </div>
+
+            <!-- Results stats grids -->
+            <div class="result-stats-grid">
+                <div class="glass stat-item">
+                    <div class="stat-value" id="res-score">4/5</div>
+                    <div class="stat-label">Correct Answers</div>
+                </div>
+                <div class="glass stat-item">
+                    <div class="stat-value" id="res-percentage">80%</div>
+                    <div class="stat-label">Final Score</div>
+                </div>
+                <div class="glass stat-item">
+                    <div class="stat-value" id="res-grade">A</div>
+                    <div class="stat-label">Performance Grade</div>
+                </div>
+            </div>
+
+            <!-- Detailed Answers Review -->
+            <div>
+                <h3 style="font-size: 0.95rem; margin-bottom: 0.75rem; color: var(--text-secondary);"><i class="fa-solid fa-clipboard-question"></i> Question Review</h3>
+                <div class="reviews-container" id="reviews-container">
+                    <!-- Dynamic review logs injected here -->
+                </div>
+            </div>
+
+            <!-- Dashboard controls -->
+            <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                <button class="btn-select" id="btn-restart" style="flex: 1;"><i class="fa-solid fa-rotate-left"></i> Start Again</button>
+                <button class="btn-primary" id="btn-home" style="flex: 1;"><i class="fa-solid fa-house"></i> Home Dashboard</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpendWise - Personal Financial Tracker</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- FontAwesome for Premium Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="glass">
+        <a href="#" class="logo">
+            <i class="fa-solid fa-wallet"></i> SpendWise
+        </a>
+        <button class="btn-icon" id="theme-toggle" title="Toggle Theme">
+            <i class="fa-solid fa-moon"></i>
+        </button>
+    </header>
+
+    <!-- App Container -->
+    <div class="tracker-container">
+        
+        <!-- Balance Dashboard statistics cards -->
+        <section class="balance-grid">
+            <div class="glass balance-card">
+                <h3>Total Balance</h3>
+                <div class="balance-val" id="val-balance">$0.00</div>
+                <span style="font-size:0.8rem; color:var(--text-secondary);" id="val-savings-rate">Savings Rate: 0%</span>
+            </div>
+            <div class="glass balance-card income">
+                <h3>Total Income</h3>
+                <div class="balance-val" style="color:var(--success);" id="val-income">$0.00</div>
+                <span style="font-size:0.8rem; color:var(--text-secondary);">Active earnings</span>
+            </div>
+            <div class="glass balance-card expense">
+                <h3>Total Expense</h3>
+                <div class="balance-val" style="color:var(--danger);" id="val-expense">$0.00</div>
+                <span style="font-size:0.8rem; color:var(--text-secondary);" id="val-expense-count">0 Transactions</span>
+            </div>
+        </section>
+
+        <!-- Main Body Grid Layout -->
+        <section class="main-grid">
+            
+            <!-- Left Pane: Add Transaction Form -->
+            <div class="glass section-card">
+                <h2><i class="fa-solid fa-circle-plus" style="color:var(--accent);"></i> New Transaction</h2>
+                <form id="transaction-form" onsubmit="event.preventDefault();" style="display:flex; flex-direction:column; gap:1.25rem;">
+                    
+                    <div class="form-group">
+                        <label>Description</label>
+                        <input type="text" class="input-field" id="tx-desc" placeholder="e.g. Weekly Groceries" required>
+                    </div>
+
+                    <div style="display:grid; grid-template-columns:1.2fr 1fr; gap:0.75rem;">
+                        <div class="form-group">
+                            <label>Amount ($)</label>
+                            <input type="number" step="0.01" class="input-field" id="tx-amount" placeholder="0.00" min="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Transaction Type</label>
+                            <select class="input-field" id="tx-type" required>
+                                <option value="expense">Expense</option>
+                                <option value="income">Income</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div style="display:grid; grid-template-columns:1.2fr 1fr; gap:0.75rem;">
+                        <div class="form-group">
+                            <label>Category</label>
+                            <select class="input-field" id="tx-category" required>
+                                <option value="Housing">Housing</option>
+                                <option value="Groceries">Groceries</option>
+                                <option value="Utilities">Utilities</option>
+                                <option value="Transport">Transport</option>
+                                <option value="Entertainment">Entertainment</option>
+                                <option value="Salary">Salary (Income)</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Date</label>
+                            <input type="date" class="input-field" id="tx-date" required>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-primary">Add Transaction</button>
+                </form>
+            </div>
+
+            <!-- Right Pane: Charts & Transaction History ledger -->
+            <div style="display:flex; flex-direction:column; gap:2rem;">
+                
+                <!-- Category Breakdown SVG Chart Card -->
+                <div class="glass section-card">
+                    <h2><i class="fa-solid fa-chart-pie" style="color:var(--accent);"></i> Expense Distribution</h2>
+                    <div class="chart-container" id="chart-section-wrapper">
+                        <!-- SVG Donut Chart -->
+                        <svg class="chart-svg" width="140" height="140" id="donut-svg">
+                            <!-- Ring circles dynamically rendered in script.js -->
+                        </svg>
+                        
+                        <!-- Legends -->
+                        <div class="chart-legend" id="donut-legend">
+                            <!-- Injected dynamically by JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Transactions History Ledger Table -->
+                <div class="glass section-card">
+                    <h2><i class="fa-solid fa-receipt" style="color:var(--accent);"></i> History Log</h2>
+                    
+                    <!-- Search + Filter Controls -->
+                    <div class="filter-row">
+                        <div class="search-wrapper">
+                            <i class="fa-solid fa-magnifying-glass" style="opacity: 0.5;"></i>
+                            <input type="text" id="tx-search" placeholder="Search transactions...">
+                        </div>
+                        <div style="display:flex; gap:0.5rem;">
+                            <select class="input-field" id="filter-type" style="width: 120px; padding: 0.4rem 0.5rem; font-size: 0.85rem;">
+                                <option value="all">All Types</option>
+                                <option value="income">Income</option>
+                                <option value="expense">Expense</option>
+                            </select>
+                            <select class="input-field" id="filter-category" style="width: 130px; padding: 0.4rem 0.5rem; font-size: 0.85rem;">
+                                <option value="all">All Categories</option>
+                                <option value="Housing">Housing</option>
+                                <option value="Groceries">Groceries</option>
+                                <option value="Utilities">Utilities</option>
+                                <option value="Transport">Transport</option>
+                                <option value="Entertainment">Entertainment</option>
+                                <option value="Salary">Salary</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Ledger Table -->
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Description</th>
+                                    <th>Category</th>
+                                    <th>Type</th>
+                                    <th>Amount</th>
+                                    <th style="text-align:right;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tx-table-body">
+                                <!-- Injected dynamically by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

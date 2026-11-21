@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShrinkIt - Advanced Link Customizer</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- FontAwesome for Premium Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="glass">
+        <a href="#" class="logo">
+            <i class="fa-solid fa-link"></i> ShrinkIt
+        </a>
+        <button class="btn-icon" id="theme-toggle" title="Toggle Theme">
+            <i class="fa-solid fa-moon"></i>
+        </button>
+    </header>
+
+    <!-- App Container -->
+    <div class="shortener-container">
+        
+        <!-- Shortener Form Card -->
+        <div class="glass section-card">
+            <h2><i class="fa-solid fa-bolt" style="color:var(--accent);"></i> Shorten Long Link</h2>
+            <form id="shortener-form" onsubmit="event.preventDefault();" style="display:flex; flex-direction:column; gap:1.25rem;">
+                
+                <div class="form-group">
+                    <label>Long URL</label>
+                    <input type="url" class="input-field" id="long-url" placeholder="https://very-long-domain.com/path/to/resource?id=123" required>
+                </div>
+
+                <div style="display:grid; grid-template-columns: 1fr 1.2fr; gap:0.75rem;">
+                    <div class="form-group">
+                        <label>Branded Domain</label>
+                        <select class="input-field" id="select-domain">
+                            <option value="shrk.it">shrk.it</option>
+                            <option value="lnkd.in">lnkd.in</option>
+                            <option value="bit.ly">bit.ly</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Custom Alias (Optional)</label>
+                        <input type="text" class="input-field" id="custom-alias" placeholder="e.g. portfolio-2026">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-primary">Shorten URL</button>
+            </form>
+
+            <!-- Generated Output panel -->
+            <div class="result-card-box" id="result-box">
+                <div style="display:flex; flex-direction:column; gap:0.25rem; flex:1;">
+                    <span style="font-size:0.75rem; color:var(--text-secondary); font-weight:600;">GENERATED SHORT URL:</span>
+                    <strong style="font-size:1.15rem; color:var(--accent);" id="result-url">shrk.it/portfolio-2026</strong>
+                </div>
+                <div style="display:flex; gap:0.5rem;">
+                    <button class="btn-primary" id="btn-copy-result" style="padding: 0.5rem 1rem;"><i class="fa-solid fa-copy"></i> Copy</button>
+                    <!-- Mock QR SVG -->
+                    <div style="width: 45px; height: 45px; background: white; border-radius: 4px; display:flex; align-items:center; justify-content:center; border:1px solid var(--panel-border);" title="Generated QR Code Mockup">
+                        <i class="fa-solid fa-qrcode" style="font-size: 1.75rem; color: black;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Click Statistics -->
+        <section class="stats-grid">
+            <div class="glass stat-item">
+                <div class="stat-val" id="stat-links">0</div>
+                <div class="stat-lbl">Links Shortened</div>
+            </div>
+            <div class="glass stat-item">
+                <div class="stat-val" id="stat-clicks">0</div>
+                <div class="stat-lbl">Total Clicks Logged</div>
+            </div>
+            <div class="glass stat-item">
+                <div class="stat-val" id="stat-top-domain">None</div>
+                <div class="stat-lbl">Top Branded Domain</div>
+            </div>
+        </section>
+
+        <!-- History Ledger logs table -->
+        <div class="glass section-card">
+            <h2><i class="fa-solid fa-receipt" style="color:var(--accent);"></i> Shortened links Ledger</h2>
+            
+            <!-- Search + Filters -->
+            <div class="filter-row">
+                <div class="search-wrapper">
+                    <i class="fa-solid fa-magnifying-glass" style="opacity: 0.5;"></i>
+                    <input type="text" id="link-search" placeholder="Search link alias...">
+                </div>
+                <div>
+                    <select class="input-field" id="filter-domain" style="width: 130px; padding: 0.4rem 0.5rem; font-size: 0.85rem;">
+                        <option value="all">All Domains</option>
+                        <option value="shrk.it">shrk.it</option>
+                        <option value="lnkd.in">lnkd.in</option>
+                        <option value="bit.ly">bit.ly</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Ledger Table -->
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Created</th>
+                            <th>Original Link</th>
+                            <th>Short Link</th>
+                            <th>Clicks</th>
+                            <th>Simulate Visit</th>
+                            <th style="text-align:right;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="links-table-body">
+                        <!-- Injected dynamically by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Chronicle - Smart News Aggregator</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- FontAwesome for Premium Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="glass">
+        <a href="#" class="logo">
+            <i class="fa-solid fa-newspaper"></i> Chronicle
+        </a>
+        
+        <!-- Search Interface -->
+        <div style="display:flex; align-items:center; gap:0.5rem; width: 340px; max-width: 35%; border:1px solid var(--panel-border); padding:0.4rem 0.8rem; border-radius:20px; background:rgba(0,0,0,0.02);">
+            <i class="fa-solid fa-magnifying-glass" style="opacity: 0.5; font-size: 0.85rem;"></i>
+            <input type="text" id="news-search" placeholder="Search headlines, events, keywords..." style="background:transparent; border:none; outline:none; color:var(--text-primary); font-size:0.85rem; width:100%;">
+        </div>
+
+        <div style="display:flex; align-items:center; gap:1rem;">
+            <button class="btn-icon" id="bookmarks-toggle-btn" title="Saved Bookmarks">
+                <i class="fa-solid fa-bookmark"></i>
+                <span class="badge" id="bookmark-badge">0</span>
+            </button>
+            <button class="btn-icon" id="theme-toggle" title="Toggle Theme">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- App Container -->
+    <div class="app-container">
+        
+        <!-- Sidebar Navigation Categories -->
+        <aside class="glass">
+            <div class="sidebar-section">
+                <h3>News Categories</h3>
+                <ul class="category-list" id="category-list">
+                    <li class="category-item active" data-category="all">
+                        <span>All News</span>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </li>
+                    <li class="category-item" data-category="technology">
+                        <span>Technology</span>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </li>
+                    <li class="category-item" data-category="business">
+                        <span>Business</span>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </li>
+                    <li class="category-item" data-category="sports">
+                        <span>Sports</span>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </li>
+                    <li class="category-item" data-category="science">
+                        <span>Science</span>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Statistics block -->
+            <div class="sidebar-section" style="margin-top: 1rem; border-top: 1px solid var(--panel-border); padding-top: 1.5rem;">
+                <h3>Daily Overview</h3>
+                <div style="display:flex; flex-direction:column; gap:1rem; padding: 0.5rem 0; font-size: 0.9rem;">
+                    <div style="display:flex; justify-content:space-between;">
+                        <span style="opacity:0.8;">Total Feeds</span>
+                        <strong id="stat-total-feeds">8</strong>
+                    </div>
+                    <div style="display:flex; justify-content:space-between;">
+                        <span style="opacity:0.8;">Saved Stories</span>
+                        <strong id="stat-saved-feeds">0</strong>
+                    </div>
+                    <div style="display:flex; justify-content:space-between;">
+                        <span style="opacity:0.8;">Trending Rate</span>
+                        <strong style="color:var(--accent);">High Speed</strong>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main News Board Workspace -->
+        <main>
+            <!-- Trending News Banner (Landing Featured Headline) -->
+            <div class="trending-banner glass" id="trending-card">
+                <!-- Injected dynamically by JS -->
+            </div>
+
+            <!-- News Grid section -->
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:0.5rem;">
+                <h2 style="font-family:var(--serif); font-size:1.35rem; font-weight:700;">Recent Releases</h2>
+                <span style="font-size:0.85rem; color:var(--text-secondary);" id="lbl-news-count">Showing 8 releases</span>
+            </div>
+
+            <div class="news-grid" id="news-grid-container">
+                <!-- Injected dynamically by JS -->
+            </div>
+
+            <!-- Saved Bookmarked Stories Section (Comparison Table layout) -->
+            <section id="bookmarks-section" class="glass bookmarks-section" style="display:none;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem;">
+                    <h2 style="font-family:var(--serif); font-size:1.35rem;"><i class="fa-solid fa-bookmark" style="color:var(--accent);"></i> Bookmarked Articles</h2>
+                    <button class="btn-icon" id="close-bookmarks-btn"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Article Title</th>
+                                <th>Source</th>
+                                <th>Category</th>
+                                <th>Date Published</th>
+                                <th style="text-align:right;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bookmarks-table-body">
+                            <!-- Bookmarks injected by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Newsletter Subscription Form -->
+            <section class="glass" style="padding:2rem; border-radius:var(--radius-md); text-align:center; display:flex; flex-direction:column; gap:0.75rem; margin-top:1.5rem;">
+                <h3 style="font-family:var(--serif); font-size:1.25rem;">Subscribe to Daily Briefing</h3>
+                <p style="color:var(--text-secondary); font-size:0.85rem; max-width:400px; margin: 0 auto;">Receive the most critical curated technology, scientific, and business stories sent directly to your inbox every morning.</p>
+                <form id="newsletter-form" onsubmit="event.preventDefault();" style="display:flex; gap:0.5rem; justify-content:center; max-width:400px; margin: 0.5rem auto 0 auto; width: 100%;">
+                    <input type="email" class="input-field" placeholder="yourname@domain.com" required style="flex:1;">
+                    <button type="submit" class="btn-primary">Subscribe</button>
+                </form>
+            </section>
+
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

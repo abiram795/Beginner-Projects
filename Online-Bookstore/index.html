@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Novella - Premium Online Bookstore</title>
+    <!-- Outfit Font -->
+    <link rel="stylesheet" href="style.css">
+    <!-- FontAwesome for Premium Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="glass">
+        <a href="#" class="logo">
+            <i class="fa-solid fa-book-open-reader"></i> Novella
+        </a>
+        <div class="search-bar">
+            <i class="fa-solid fa-magnifying-glass" style="opacity: 0.5;"></i>
+            <input type="text" id="search-input" placeholder="Search books by title, author...">
+        </div>
+        <div class="nav-actions">
+            <button class="btn-icon" id="theme-toggle" title="Toggle Theme">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+            <button class="btn-icon" id="wishlist-toggle" title="Wishlist">
+                <i class="fa-solid fa-heart"></i>
+                <span class="badge" id="wishlist-badge">0</span>
+            </button>
+            <button class="btn-icon" id="cart-toggle" title="Cart">
+                <i class="fa-solid fa-shopping-bag"></i>
+                <span class="badge" id="cart-badge">0</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- App Container -->
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="glass">
+            <div class="sidebar-section">
+                <h3>Discover Categories</h3>
+                <ul class="category-list" id="category-list">
+                    <li class="category-item active" data-category="all">
+                        <span>All Genres</span>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </li>
+                    <li class="category-item" data-category="fiction">
+                        <span>Fiction</span>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </li>
+                    <li class="category-item" data-category="technology">
+                        <span>Technology</span>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </li>
+                    <li class="category-item" data-category="science">
+                        <span>Science</span>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </li>
+                    <li class="category-item" data-category="business">
+                        <span>Business & Economics</span>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Stats Block in Sidebar -->
+            <div class="sidebar-section">
+                <h3>Store Stats</h3>
+                <div style="display:flex; flex-direction:column; gap:1rem; padding: 0.5rem 0;">
+                    <div style="display:flex; justify-content:space-between; font-size:0.9rem;">
+                        <span style="opacity:0.8;">Total Books</span>
+                        <strong id="stat-total-books">12</strong>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; font-size:0.9rem;">
+                        <span style="opacity:0.8;">Avg Rating</span>
+                        <strong>4.8 ★</strong>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; font-size:0.9rem;">
+                        <span style="opacity:0.8;">Active Members</span>
+                        <strong>1.2k</strong>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main>
+            <!-- Hero Dashboard Banner -->
+            <div class="hero-banner glass">
+                <h1>Escape into worlds unknown.</h1>
+                <p>Welcome to Novella. Browse through our premium curated list of academic, fictional, and scientific writings directly from your web dashboard.</p>
+            </div>
+
+            <!-- Bookstore Statistics Panel -->
+            <section style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+                <div class="glass" style="padding: 1.5rem; border-radius: var(--radius-md); display: flex; align-items: center; gap: 1rem;">
+                    <div style="background: rgba(79, 70, 229, 0.1); color: var(--accent); width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">
+                        <i class="fa-solid fa-truck-fast"></i>
+                    </div>
+                    <div>
+                        <h4 style="font-size: 1.1rem; font-weight: 600;">Free Shipping</h4>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary);">On orders over $35</p>
+                    </div>
+                </div>
+                <div class="glass" style="padding: 1.5rem; border-radius: var(--radius-md); display: flex; align-items: center; gap: 1rem;">
+                    <div style="background: rgba(16, 185, 129, 0.1); color: var(--success); width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <div>
+                        <h4 style="font-size: 1.1rem; font-weight: 600;">Secure Checkout</h4>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary);">100% Encrypted Transactions</p>
+                    </div>
+                </div>
+                <div class="glass" style="padding: 1.5rem; border-radius: var(--radius-md); display: flex; align-items: center; gap: 1rem;">
+                    <div style="background: rgba(239, 68, 68, 0.1); color: var(--danger); width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">
+                        <i class="fa-solid fa-arrow-rotate-left"></i>
+                    </div>
+                    <div>
+                        <h4 style="font-size: 1.1rem; font-weight: 600;">Easy Returns</h4>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary);">30-Day Money-Back Policy</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Book Grid Section -->
+            <section class="section-title">
+                <h2>Featured Collection</h2>
+                <div style="font-size: 0.9rem; color: var(--text-secondary);" id="results-count">Showing 12 books</div>
+            </section>
+
+            <div class="books-grid" id="books-container">
+                <!-- Dynamic Books injected here -->
+            </div>
+
+            <!-- Wishlist View Table (Collapsible) -->
+            <section id="wishlist-section" class="glass" style="display: none; padding: 2rem; border-radius: var(--radius-md); margin-top: 1rem;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem;">
+                    <h2 style="font-size: 1.3rem; font-weight:600;"><i class="fa-solid fa-heart" style="color:var(--danger);"></i> My Saved Wishlist</h2>
+                    <button class="btn-quantity" id="close-wishlist-view" style="font-size: 1.25rem;"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+                <div style="overflow-x:auto;">
+                    <table style="width: 100%; border-collapse: collapse; text-align: left;" id="wishlist-table">
+                        <thead>
+                            <tr style="border-bottom: 2px solid var(--panel-border); font-size: 0.9rem; color: var(--text-secondary);">
+                                <th style="padding: 1rem 0.5rem;">Book Cover</th>
+                                <th style="padding: 1rem 0.5rem;">Book Details</th>
+                                <th style="padding: 1rem 0.5rem;">Price</th>
+                                <th style="padding: 1rem 0.5rem;">Availability</th>
+                                <th style="padding: 1rem 0.5rem; text-align: right;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="wishlist-table-body">
+                            <!-- Wishlist items injected here -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Shopping Cart Drawer -->
+    <div class="drawer glass" id="cart-drawer">
+        <div class="drawer-header">
+            <h3><i class="fa-solid fa-shopping-basket"></i> Your Shopping Cart</h3>
+            <button class="drawer-close" id="cart-close-btn">&times;</button>
+        </div>
+        <div class="drawer-content" id="cart-items-container">
+            <!-- Dynamic Cart Items injected here -->
+        </div>
+        <div class="drawer-footer">
+            <div class="cart-summary-row">
+                <span>Subtotal:</span>
+                <span id="cart-subtotal">$0.00</span>
+            </div>
+            <div class="cart-summary-row" style="color: var(--text-secondary); font-size: 0.9rem;">
+                <span>Shipping:</span>
+                <span id="cart-shipping">Free</span>
+            </div>
+            <hr style="border: 0; border-top: 1px solid var(--panel-border);">
+            <div class="cart-summary-row" style="font-weight: 700; font-size: 1.15rem;">
+                <span>Total:</span>
+                <span id="cart-total">$0.00</span>
+            </div>
+            <button class="btn-checkout" id="btn-checkout">Proceed to Checkout</button>
+        </div>
+    </div>
+
+    <!-- Checkout Modal Form -->
+    <div class="modal-overlay" id="checkout-modal-overlay">
+        <div class="modal-card glass">
+            <div class="modal-icon">
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <h2>Order Successful!</h2>
+            <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.5;">Thank you for shopping with Novella. Your mock transaction has completed. A confirmation email has been simulated.</p>
+            <button class="btn-modal-close" id="modal-close-btn">Done</button>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>

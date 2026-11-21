@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scribo - Glassmorphic Note Keeping</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- FontAwesome for Premium Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="glass">
+        <a href="#" class="logo">
+            <i class="fa-solid fa-note-sticky"></i> Scribo
+        </a>
+        <button class="btn-icon" id="theme-toggle" title="Toggle Theme">
+            <i class="fa-solid fa-moon"></i>
+        </button>
+    </header>
+
+    <!-- App Container -->
+    <div class="app-container">
+        
+        <!-- Sidebar Folders & Stats -->
+        <aside class="glass">
+            <div class="sidebar-section">
+                <h3>Folders</h3>
+                <ul class="folder-list" id="folders-list">
+                    <li class="folder-item active" data-folder="all">
+                        <span>All Notes</span>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </li>
+                    <li class="folder-item" data-folder="Work">
+                        <span>Work</span>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </li>
+                    <li class="folder-item" data-folder="Personal">
+                        <span>Personal</span>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </li>
+                    <li class="folder-item" data-folder="Ideas">
+                        <span>Ideas</span>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </li>
+                    <li class="folder-item" data-folder="archive">
+                        <span>Archived Logs</span>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Stats Block -->
+            <div class="sidebar-section" style="margin-top: 1rem; border-top: 1px solid var(--panel-border); padding-top: 1.5rem;">
+                <h3>Notes Stats</h3>
+                <div style="display:flex; flex-direction:column; gap:1rem; padding: 0.5rem 0; font-size: 0.9rem;">
+                    <div style="display:flex; justify-content:space-between;">
+                        <span style="opacity:0.8;">Active Notes</span>
+                        <strong id="stat-active">0</strong>
+                    </div>
+                    <div style="display:flex; justify-content:space-between;">
+                        <span style="opacity:0.8;">Pinned Notes</span>
+                        <strong id="stat-pinned">0</strong>
+                    </div>
+                    <div style="display:flex; justify-content:space-between;">
+                        <span style="opacity:0.8;">Archived</span>
+                        <strong id="stat-archived">0</strong>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Workspace -->
+        <main>
+            <!-- Top Search and New Note trigger -->
+            <div class="top-search-row">
+                <div class="search-field-wrapper glass">
+                    <i class="fa-solid fa-magnifying-glass" style="opacity: 0.5;"></i>
+                    <input type="text" id="note-search" placeholder="Search notes by keyword or title...">
+                </div>
+                <div style="display:flex; gap:0.5rem;">
+                    <button class="btn-secondary" id="archive-table-toggle-btn" title="Toggle Archived Table View"><i class="fa-solid fa-box-archive"></i> Archive</button>
+                    <button class="btn-primary" id="btn-new-note"><i class="fa-solid fa-circle-plus"></i> New Note</button>
+                </div>
+            </div>
+
+            <!-- Pinned Notes Section (shows only if pinned notes exist) -->
+            <section id="pinned-section" style="display:none; flex-direction:column; gap:1rem;">
+                <h3 style="font-size:1.15rem; font-weight:600;"><i class="fa-solid fa-thumbtack" style="color:var(--accent);"></i> Pinned Items</h3>
+                <div class="notes-grid" id="pinned-notes-container">
+                    <!-- Pinned note cards injected here -->
+                </div>
+            </section>
+
+            <!-- Active Notes Catalog Section -->
+            <section style="display:flex; flex-direction:column; gap:1rem; flex: 1;">
+                <h3 style="font-size:1.15rem; font-weight:600;"><i class="fa-solid fa-folder-open" style="color:var(--accent);"></i> Notes Feed</h3>
+                <div class="notes-grid" id="notes-container">
+                    <!-- Note cards injected here -->
+                </div>
+            </section>
+
+            <!-- Archived comparative Table section (collapsible) -->
+            <section class="glass table-card" id="archive-table-section" style="display:none;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+                    <h3 style="font-size:1.1rem; font-weight:600;"><i class="fa-solid fa-box-archive" style="color:var(--accent);"></i> Archived Notes Ledger</h3>
+                    <button class="btn-icon" id="close-archive-table-btn"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date Created</th>
+                                <th>Note Title</th>
+                                <th>Folder Tag</th>
+                                <th style="text-align:right;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="archive-table-body">
+                            <!-- Injected dynamically by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Edit/Create Note Modal Form -->
+    <div class="modal-overlay" id="note-modal">
+        <div class="modal-box glass">
+            <h2 id="modal-title" style="font-size:1.35rem; font-weight:700;">Add New Note</h2>
+            <form id="note-form" onsubmit="event.preventDefault();" style="display:flex; flex-direction:column; gap:1.25rem;">
+                <input type="hidden" id="form-note-id">
+                
+                <div class="form-group">
+                    <label>Title</label>
+                    <input type="text" class="input-field" id="form-title" placeholder="Note Title" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Folder Category</label>
+                    <select class="input-field" id="form-tag">
+                        <option value="Work">Work</option>
+                        <option value="Personal">Personal</option>
+                        <option value="Ideas">Ideas</option>
+                    </select>
+                </div>
+
+                <!-- Custom color swatch selector -->
+                <div class="form-group">
+                    <label>Card Color Tag</label>
+                    <div class="color-swatch-group" id="color-swatch-group">
+                        <div class="color-swatch active" data-color="#f59e0b" style="background:#f59e0b;"></div>
+                        <div class="color-swatch" data-color="#3b82f6" style="background:#3b82f6;"></div>
+                        <div class="color-swatch" data-color="#10b981" style="background:#10b981;"></div>
+                        <div class="color-swatch" data-color="#8b5cf6" style="background:#8b5cf6;"></div>
+                        <div class="color-swatch" data-color="#ef4444" style="background:#ef4444;"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Body Description</label>
+                    <textarea class="input-field" id="form-body" rows="6" placeholder="Start typing notes..." required></textarea>
+                </div>
+
+                <div style="display:flex; justify-content:flex-end; gap:0.75rem; margin-top:0.5rem;">
+                    <button type="button" class="btn-secondary" id="close-modal">Cancel</button>
+                    <button type="submit" class="btn-primary" style="padding:0.6rem 1.5rem;">Save Note</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

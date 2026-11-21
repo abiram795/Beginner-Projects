@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scribble - Premium Blog Hub</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- FontAwesome for Premium Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="glass">
+        <a href="#" class="logo" id="logo-home">
+            <i class="fa-solid fa-feather-pointed"></i> Scribble
+        </a>
+        <div style="display:flex; align-items:center; gap:0.5rem; width: 300px; max-width: 30%; border:1px solid var(--panel-border); padding:0.4rem 0.8rem; border-radius:20px; background:rgba(0,0,0,0.02);" id="header-search-wrapper">
+            <i class="fa-solid fa-magnifying-glass" style="opacity: 0.5; font-size: 0.85rem;"></i>
+            <input type="text" id="feed-search" placeholder="Search stories..." style="background:transparent; border:none; outline:none; color:var(--text-primary); font-size:0.85rem; width:100%;">
+        </div>
+        <div class="nav-actions">
+            <button class="btn-primary" id="btn-write-article"><i class="fa-solid fa-pen-nib"></i> Write</button>
+            <button class="btn-secondary" id="btn-toggle-studio"><i class="fa-solid fa-chart-pie"></i> Studio</button>
+            <button class="btn-icon" id="theme-toggle" title="Toggle Theme">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- App Body Layout -->
+    <div class="app-layout">
+        
+        <!-- ================= CONTAINER 1: MAIN NEWS FEED (LANDING) ================= -->
+        <main class="main-feed-container" id="feed-container">
+            <!-- Categories selector list -->
+            <nav class="cat-nav">
+                <span class="cat-link active" data-category="all">All Stories</span>
+                <span class="cat-link" data-category="technology">Technology</span>
+                <span class="cat-link" data-category="design">Design</span>
+                <span class="cat-link" data-category="philosophy">Philosophy</span>
+                <span class="cat-link" data-category="lifestyle">Lifestyle</span>
+            </nav>
+
+            <!-- Landing Featured Article Card -->
+            <div class="featured-card glass" id="featured-article-card">
+                <!-- Injected dynamically by JS -->
+            </div>
+
+            <!-- Recent stories -->
+            <section style="display:flex; flex-direction:column; gap:1.5rem;">
+                <h2 style="font-family: var(--serif); font-size: 1.5rem;">Latest Publications</h2>
+                <div class="articles-grid" id="articles-grid-container">
+                    <!-- Injected dynamically by JS -->
+                </div>
+            </section>
+        </main>
+
+        <!-- ================= CONTAINER 2: STUDIO DASHBOARD (DASHBOARD) ================= -->
+        <main class="studio-container" id="studio-container">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <h2 style="font-family: var(--serif); font-size: 1.85rem;">Author Analytics Studio</h2>
+                <button class="btn-secondary" id="btn-exit-studio"><i class="fa-solid fa-house"></i> Home Feed</button>
+            </div>
+
+            <!-- Dashboard Statistics Cards -->
+            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+                <div class="glass" style="padding:1.5rem; border-radius:var(--radius-md);">
+                    <div style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:0.25rem;">Total Published</div>
+                    <strong style="font-size:2rem; font-weight:700;" id="stat-total-posts">0</strong>
+                </div>
+                <div class="glass" style="padding:1.5rem; border-radius:var(--radius-md);">
+                    <div style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:0.25rem;">Total Likes Received</div>
+                    <strong style="font-size:2rem; font-weight:700; color:var(--danger);" id="stat-total-likes">0</strong>
+                </div>
+                <div class="glass" style="padding:1.5rem; border-radius:var(--radius-md);">
+                    <div style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:0.25rem;">Comments Contributed</div>
+                    <strong style="font-size:2rem; font-weight:700; color:var(--accent);" id="stat-total-comments">0</strong>
+                </div>
+            </div>
+
+            <!-- Published Articles Manager Table -->
+            <div class="glass" style="padding:1.5rem; border-radius:var(--radius-md);">
+                <h3 style="font-size:1.1rem; margin-bottom:1.25rem;">My Stories</h3>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Article Title</th>
+                                <th>Date Published</th>
+                                <th>Category</th>
+                                <th>Likes</th>
+                                <th style="text-align:right;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="studio-articles-table-body">
+                            <!-- Injected dynamically by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+
+    </div>
+
+    <!-- Article Reader View Modal -->
+    <div class="modal-overlay" id="reader-modal-overlay">
+        <div class="reader-modal glass">
+            <div class="reader-header">
+                <div style="display:flex; align-items:center; gap:0.75rem;">
+                    <div style="width:36px; height:36px; border-radius:50%; background:linear-gradient(135deg, #10b981 0%, #3b82f6 100%); color:white; font-weight:bold; display:flex; align-items:center; justify-content:center;" id="reader-author-avatar">A</div>
+                    <div>
+                        <strong style="font-size:0.85rem; display:block;" id="reader-author-name">Alex Mercer</strong>
+                        <span style="font-size:0.75rem; color:var(--text-secondary);" id="reader-publish-date">July 20, 2026 • 5 min read</span>
+                    </div>
+                </div>
+                <button class="btn-icon" id="btn-close-reader"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <div class="reader-content">
+                <span class="btn-primary" style="align-self:flex-start; pointer-events:none; font-size:0.75rem; padding:0.2rem 0.6rem; border-radius:12px;" id="reader-category">TECHNOLOGY</span>
+                <h1 class="reader-title" id="reader-title-heading">The Future of Web Engineering with Glassmorphic Frameworks</h1>
+                
+                <div class="card-img-placeholder" id="reader-banner-img" style="height: 320px; border-radius: var(--radius-md);"></div>
+                
+                <div class="reader-body-text" id="reader-body-paragraph">
+                    <!-- Detailed body text -->
+                </div>
+
+                <!-- Likes trigger + Comments Section -->
+                <section class="comments-section">
+                    <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--panel-border); padding-bottom:1rem;">
+                        <button class="btn-secondary" id="btn-reader-like" style="border-radius:20px; display:inline-flex; align-items:center; gap:0.4rem; padding: 0.4rem 1rem;">
+                            <i class="fa-solid fa-heart" id="like-icon-state" style="color:var(--text-secondary);"></i> 
+                            <span id="reader-like-count">12 Likes</span>
+                        </button>
+                        <span style="font-size:0.9rem; font-weight:600;" id="comments-heading-count">3 Responses</span>
+                    </div>
+
+                    <!-- Post Comment Form -->
+                    <div class="comment-input-row">
+                        <textarea id="comment-textarea" rows="2" placeholder="What are your thoughts on this story?"></textarea>
+                        <button class="btn-primary" id="btn-post-comment" style="align-self:center; border-radius:8px; padding: 0.65rem 1rem;">Respond</button>
+                    </div>
+
+                    <!-- Comments logs -->
+                    <div class="comment-list" id="reader-comments-list">
+                        <!-- Comment items injected by JS -->
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create/Edit Article Form Modal -->
+    <div class="modal-overlay" id="editor-modal-overlay">
+        <div class="form-modal glass">
+            <h2 id="editor-modal-title" style="font-family: var(--serif); font-size: 1.5rem; margin-bottom: 0.5rem;">Draft a New Story</h2>
+            <form id="editor-form" onsubmit="event.preventDefault();" style="display:flex; flex-direction:column; gap:1.25rem;">
+                <input type="hidden" id="edit-article-id">
+                
+                <div class="form-group">
+                    <label style="font-size:0.85rem; font-weight:600;">Story Title</label>
+                    <input type="text" class="input-field" id="form-article-title" placeholder="A compelling headline..." required>
+                </div>
+                
+                <div style="display:grid; grid-template-columns:1.2fr 1fr; gap:0.75rem;">
+                    <div class="form-group">
+                        <label style="font-size:0.85rem; font-weight:600;">Category</label>
+                        <select class="input-field" id="form-article-category">
+                            <option value="technology">Technology</option>
+                            <option value="design">Design</option>
+                            <option value="philosophy">Philosophy</option>
+                            <option value="lifestyle">Lifestyle</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label style="font-size:0.85rem; font-weight:600;">Read Time (mins)</label>
+                        <input type="number" class="input-field" id="form-article-readtime" min="1" max="60" value="5" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label style="font-size:0.85rem; font-weight:600;">Banner Image Mock URL</label>
+                    <input type="text" class="input-field" id="form-article-img" placeholder="https://images.unsplash.com/...">
+                </div>
+
+                <div class="form-group">
+                    <label style="font-size:0.85rem; font-weight:600;">Content Story</label>
+                    <textarea class="input-field" id="form-article-content" rows="8" placeholder="Share your knowledge..." required></textarea>
+                </div>
+
+                <div style="display:flex; justify-content:flex-end; gap:0.75rem; margin-top:0.5rem;">
+                    <button type="button" class="btn-secondary" id="btn-close-editor">Cancel</button>
+                    <button type="submit" class="btn-primary" id="btn-save-article" style="padding:0.6rem 1.5rem;">Publish Story</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
